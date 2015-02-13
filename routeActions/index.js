@@ -23,11 +23,16 @@ module.exports = function () {
 
     var apiKey = process.env.BIG_OVEN_API_KEY
 
+    var options = {headers: {'dataType': 'json'}}
+
     var url = "http://api.bigoven.com/recipe/196149?api_key=" + apiKey
     console.log(url);
     http.get(url, function(res) {
       console.log("Got response: " + res.statusCode);
-      console.log(res);
+      res.on('data', function(chunk) {
+        console.log('BODY: ' + chunk);
+      })
+      // console.log(res);
     }).on('error', function(e) {
       console.log("Got error: " + e.message);
     });
