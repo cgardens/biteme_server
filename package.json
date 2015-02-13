@@ -9,7 +9,8 @@
   "dependencies": {
         "express": "4.x",
         "morgan": "latest",
-        "mongoose": "3.8.8"
+        "mongoose": "3.8.8",
+        "dotenv": "0.5.1"
   },
 
   "engines": {
