@@ -4,7 +4,65 @@ dotenv.load()
 
 apiHelper = {
 
-  callApi: function(req, res){
+
+
+  searchRecipesFromBigOven: function(req, res) {
+    var result = 0,
+    apiKey = process.env.BIG_OVEN_API_KEY,
+    // titleKeyword = req.params.id
+    titleKeyword = "lasagna"
+    var url = "http://api.bigoven.com/recipes?pg=1&rpp=25&title_kw="
+                  + titleKeyword
+                  + "&api_key="+apiKey;
+
+    request.get({url:url, json:true})
+            .on('response', function(response) {
+              response
+                .on('data', function(chunk) {
+                 // console.log('BODY: ' + chunk);
+                 if (!result) {
+                  result = chunk
+                } else {
+                  result += chunk
+                }
+
+                })
+                .on('end', function() {
+                  apiHelper.sendRecipesList(result, res);
+                })
+              // console.log(response);
+              // console.log(response.statusCode) // 200
+              // console.log(response.headers['content-type']) // 'image/png'
+            })
+  },
+
+  sendRecipesList: function(result, res) {
+    parsedRecipeList = apiHelper.parseRecipeList(result);
+    // console.log(parsedRecipeList);
+    res.send(parsedRecipeList);
+  },
+
+  parseRecipeList: function(result) {
+    parsedResult = JSON.parse(result);
+    var toSend = { resultCount: parsedResult.ResultCount, results: [] }
+    parsedResult.Results.forEach(function(recipe){
+      toSend.results.push({recipeID: recipe.RecipeID,
+                          title: recipe.Title,
+                          cuisine: recipe.Cuisine,
+                          rating: recipe.StarRating,
+                          bigOvenURL: recipe.WebURL,
+                          imageURL: recipe.ImageURL,
+                          reviewCount: recipe.ReviewCount,
+                          totalTries: recipe.TotalTries,
+                          dateAdded: recipe.CreationDate
+                          })
+    })
+    return toSend
+  },
+
+  //##############################################################################################
+
+  getRecipeFromBigOven: function(req, res){
     var result = 0,
         apiKey = process.env.BIG_OVEN_API_KEY,
         recipeID = req.params.id

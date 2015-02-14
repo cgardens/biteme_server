@@ -16,8 +16,12 @@ module.exports = function () {
     });
   };
 
+  functions.searchRecipes = function(req, res) {
+    apiHelper.searchRecipesFromBigOven(req, res);
+  }
+
   functions.getRecipe = function (req, res) {
-    apiHelper.callApi(req, res);
+    apiHelper.getRecipeFromBigOven(req, res);
   };
 
   return functions;
