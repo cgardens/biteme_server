@@ -23,9 +23,32 @@ module.exports = function () {
   functions.searchRecipes = function (req, res) {
     var myCallback = function(){
       console.log('im done');
-      console.log(result);
+      // console.log(result);
+      parsedResult = parseRecipe(result);
+      res.send(parsedResult);
+    }
 
-      res.send(result);
+    var parseRecipe = function(result){
+      // console.log(result);
+      var parsed = JSON.parse(result)
+      // console.log(parsed);
+      // console.log(parsed['Title']);
+      var title = parsed['Title'];
+      // console.log(parsed['Description']);
+      var description = parsed['Description'];
+      // console.log(parsed['Ingredients']);
+      var ingredients = parsed['Ingredients'];
+      ingredients = ingredients.map(function(element){
+        return element.Quantity + " " + element.Unit + " " + element.Name;
+      })
+      // console.log(ingredients)
+      // console.log(parsed['Instructions']);
+      var instructions = parsed['Instructions'];
+      instructions = instructions.split('.')
+      // console.log(instructions);
+      var currentStep = 0;
+      var toSend = {title: title, description: description, ingredients: ingredients , instructions: instructions, currentStep: currentStep}
+      return toSend;
     }
 
     var result = 0
@@ -35,8 +58,8 @@ module.exports = function () {
     request.get({url:url, json:true})
             .on('response', function(response) {
               response.on('data', function(chunk) {
-               console.log('BODY: ' + chunk);
-               console.log("here in on");
+               // console.log('BODY: ' + chunk);
+               // console.log("here in on");
                if (!result) {
                 result = chunk
               } else {
