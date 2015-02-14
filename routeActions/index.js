@@ -16,7 +16,7 @@ module.exports = function () {
     });
   };
 
-  functions.searchRecipes = function (req, res) {
+  functions.getRecipe = function (req, res) {
     apiHelper.callApi(req, res);
   };
 

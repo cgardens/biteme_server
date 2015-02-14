@@ -6,5 +6,5 @@ var user         = require('../schemas/user');
 //all routes go below (Inside of module.exports block)
 module.exports = function (app) {
   app.get('/users', routeActions.users);
-  app.get('/search_recipes/:id', routeActions.searchRecipes);
+  app.get('/recipes/:id', routeActions.getRecipe);
 };
