@@ -21,46 +21,39 @@ module.exports = function () {
   };
 
   functions.searchRecipes = function (req, res) {
+    var myCallback = function(){
+      console.log('im done');
+      console.log(result);
+
+      res.send(result);
+    }
+
+    var result = 0
     var apiKey = process.env.BIG_OVEN_API_KEY
     var url = "http://api.bigoven.com/recipe/196149?api_key=" + apiKey
 
-    request
-      .get({url:url, json:true})
-      .on('response', function(response) {
-        response.on('data', function(chunk) {
-         console.log('BODY: ' + chunk);
-        })
-        console.log(response);
-        console.log(response.statusCode) // 200
-        console.log(response.headers['content-type']) // 'image/png'
+    request.get({url:url, json:true})
+            .on('response', function(response) {
+              response.on('data', function(chunk) {
+               console.log('BODY: ' + chunk);
+               console.log("here in on");
+               if (!result) {
+                result = chunk
+              } else {
+                result += chunk
+              }
+               // console.log(result);
+
+              })
+            .on('end', function() {
+              myCallback();
+            })
+              // console.log("here in request");
+              // console.log(response);
+              // console.log(response.statusCode) // 200
+              // console.log(response.headers['content-type']) // 'image/png'
     })
-
-
-// ###########################################
-  //   var apiKey = process.env.BIG_OVEN_API_KEY
-
-  //   var options = {headers: {'dataType': 'json'}}
-
-  //   var url = "http://api.bigoven.com/recipe/196149?api_key=" + apiKey
-  //   var path = "/recipe/196149?api_key=" + apiKey
-  //   console.log(url);
-  //   http.get({
-  //     hostname: "http://api.bigoven.com/recipe/196149",
-  //     port: 80,
-  //     path: path,
-  //     headers: {'Content-Type': 'application/json'}
-  //     },
-  //     function(res) {
-  //     console.log("Got response: " + res.statusCode);
-  //     res.on('data', function(chunk) {
-  //       console.log('BODY: ' + chunk);
-  //     })
-  //     // console.log(res);
-  //   }).on('error', function(e) {
-  //     console.log("Got error: " + e.message);
-  //   });
-
-  //   res.json({ status: "complete"});
+    console.log("here in searchRecipes");
   };
 
   return functions;
