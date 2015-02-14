@@ -8,10 +8,9 @@ apiHelper = {
 
   searchRecipesFromBigOven: function(req, res) {
     var result = 0,
-    apiKey = process.env.BIG_OVEN_API_KEY,
-    // titleKeyword = req.params.id
-    titleKeyword = "lasagna"
-    var url = "http://api.bigoven.com/recipes?pg=1&rpp=25&title_kw="
+        apiKey = process.env.BIG_OVEN_API_KEY,
+        titleKeyword = req.query.term,
+        url = "http://api.bigoven.com/recipes?pg=1&rpp=25&title_kw="
                   + titleKeyword
                   + "&api_key="+apiKey;
 
