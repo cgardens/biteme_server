@@ -1,4 +1,5 @@
 var User = require('../schemas/user');
+var apiHelper = require('../routeActions/api-helpers.js');
 
 module.exports = function () {
 
@@ -13,6 +14,14 @@ module.exports = function () {
         res.json(users);
       }
     });
+  };
+
+  functions.searchRecipes = function(req, res) {
+    apiHelper.searchRecipesFromBigOven(req, res);
+  }
+
+  functions.getRecipe = function (req, res) {
+    apiHelper.getRecipeFromBigOven(req, res);
   };
 
   return functions;
