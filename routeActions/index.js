@@ -1,5 +1,5 @@
 var User = require('../schemas/user');
-var apiHelper = require('../routeActions/helper.js');
+var apiHelper = require('../routeActions/api-helpers.js');
 
 module.exports = function () {
 
