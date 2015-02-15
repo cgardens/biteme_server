@@ -37,7 +37,6 @@ apiHelper = {
 
   sendRecipesList: function(result, res) {
     parsedRecipeList = apiHelper.parseRecipeList(result);
-    // console.log(parsedRecipeList);
     res.send(parsedRecipeList);
   },
 
@@ -149,11 +148,11 @@ apiHelper = {
   },
 
   packageUserRecipes: function(result, res) {
-    console.log('this.counter')
-    console.log(this.counter)
-    console.log('this.listLength')
-    console.log(this.listLength)
-    parsedRecipe = apiHelper.parseRecipe(result)
+    // console.log('this.counter')
+    // console.log(this.counter)
+    // console.log('this.listLength')
+    // console.log(this.listLength)
+    parsedRecipe = result
     this.userRecipes.push(parsedRecipe);
     if(this.counter === this.listLength) {
       apiHelper.sendUserRecipes(res, this.userRecipes);
@@ -162,9 +161,31 @@ apiHelper = {
   },
 
   sendUserRecipes: function(res, toSend) {
-    console.log('here 3')
+    toSend = apiHelper.parseIndividualRecipesToListFormat(toSend)
     res.json(toSend)
+  },
+
+  parseIndividualRecipesToListFormat: function(arrayOfFullRecipes){
+    var toSend = {},
+    extractedRecipeCount = arrayOfFullRecipes.length,
+    recipes = [];
+    toSend.recipeCount = extractedRecipeCount;
+    arrayOfFullRecipes.forEach(function(recipe){
+      recipe = JSON.parse(recipe);
+      recipes.push({recipeID: recipe.RecipeID,
+                    title: recipe.Title,
+                    cuisine: recipe.Cuisine,
+                    rating: recipe.StarRating,
+                    bigOvenURL: recipe.WebURL,
+                    imageURL: recipe.ImageURL,
+                    reviewCount: recipe.ReviewCount,
+                    totalTries: null, //recipe show pages do not have totalTries
+                    dateAdded: recipe.CreationDate})
+    })
+    toSend.recipes = recipes
+    return toSend
   }
+
 }
 
 module.exports = apiHelper;

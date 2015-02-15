@@ -37,7 +37,6 @@ module.exports = function () {
   }
 
   functions.createUser = function(req, res) {
-    // console.log(req)
     parsedUser = JSON.parse(req.body.newUser);
     // req.param.userName = {email: 'charles@dev.com',
                           // username: "docgardens",
@@ -109,19 +108,23 @@ module.exports = function () {
     this.listLength = 0
 
     User.findOne({_id: id}, function(err, user) {
-      if (user.recipes.length === 0 ) {
-        res.json({msg: "You don't have any saved recipes."})
+      if (err) {
+          res.json({
+              type: false,
+              data: "Error occured: " + err
+          });
       } else {
-        this.counter = 1,
-        this.listLength = user.recipes.length
-        user.recipes.forEach(function(element){
-          console.log('here 1')
-          req.params.id = element
-          apiHelper.getRecipeFromBigOven(req, res, apiHelper.packageUserRecipes.bind(self))
-        })
-        console.log('here 2')
-        console.log(this.userRecipes)
+        if (user.recipes.length === 0 ) {
+          res.json({msg: "You don't have any saved recipes."})
+        } else {
+          this.counter = 1,
+          this.listLength = user.recipes.length
+          user.recipes.forEach(function(element){
+            req.params.id = element
+            apiHelper.getRecipeFromBigOven(req, res, apiHelper.packageUserRecipes.bind(self))
+          })
 
+        }
       }
     }.bind(self))
   };
