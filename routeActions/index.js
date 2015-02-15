@@ -24,5 +24,9 @@ module.exports = function () {
     apiHelper.getRecipeFromBigOven(req, res);
   };
 
+  functions.saveRecipe = function (req, res) {
+    apiHelper.saveRecipeFromBigOven(req, res);
+  };
+
   return functions;
 };

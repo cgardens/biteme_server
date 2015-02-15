@@ -144,7 +144,12 @@ apiHelper = {
               }
 
     return toSend;
+  },
+
+  saveRecipeFromBigOven: function(req, res){
+    res.send("string testing");
   }
+
 }
 
 module.exports = apiHelper;
