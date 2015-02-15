@@ -96,5 +96,33 @@ module.exports = function () {
     apiHelper.getRecipeFromBigOven(req, res);
   };
 
+  functions.getUserRecipes = function (req, res) {
+
+  };
+
+  functions.addUserRecipe = function (req, res) {
+    var id = req.param('id'),
+        recipeToAdd = req.body.recipeToAdd,
+        updatedRecipesList;
+
+    User.findOne({_id: id}, function(err, user) {
+      if(!user.recipes) {
+        user.recipes = []
+      }
+
+      user.recipes.push(recipeToAdd)
+      updatedRecipesList = user.recipes
+
+      user.save(function(err) {
+        if (err) {
+          console.log(err);
+          res.status(500).json({status: err});
+        } else {
+          res.json({status: 'success'})
+        }
+      })
+    })
+  };
+
   return functions;
 };

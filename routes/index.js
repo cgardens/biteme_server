@@ -18,4 +18,8 @@ module.exports = function (app) {
 
   app.get('/recipes/search', routeActions.searchRecipes);
   app.get('/recipes/:id', routeActions.getRecipe);
+
+  app.get('/users/:id/recipes', routeActions.getUserRecipes)
+  app.post('/users/:id/recipes', urlencodedParser, routeActions.addUserRecipe)
+
 };

@@ -33,6 +33,7 @@ http://localhost:9000/recipes/:recipeID
 
 sample ID: 175169
 
+
 ###User Routes
 
 ####Show All Users
@@ -58,3 +59,11 @@ sample input: {editUser: {"email": "gary@dev.com", "username": "gary", "password
 ####Delete a User
 type: DELETE
 http://localhost:9000/users/:id
+
+####Add User Recipe
+type: PUT
+http://localhost:9000/users/:id/recipes/create
+
+####Get Users Recipes
+type: GET
+http://localhost:9000/users/:id/recipes
