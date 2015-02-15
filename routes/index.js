@@ -6,6 +6,7 @@ var user         = require('../schemas/user');
 //all routes go below (Inside of module.exports block)
 module.exports = function (app) {
   app.get('/users', routeActions.users);
+  app.post('/users/create', routeActions.createUser);
   app.get('/recipes/search', routeActions.searchRecipes);
   app.get('/recipes/:id', routeActions.getRecipe);
 };
