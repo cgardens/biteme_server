@@ -3,6 +3,8 @@ var db           = require('../db');
 var routeActions = require('../routeActions')(db);
 var user         = require('../schemas/user');
 var bodyParser = require('body-parser')
+
+
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 

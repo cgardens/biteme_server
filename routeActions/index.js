@@ -6,6 +6,8 @@ module.exports = function () {
 
   var functions = {};
 
+// user functions
+
   functions.users = function (req, res) {
     User.find()
       .exec(function(err, users) {
@@ -33,7 +35,6 @@ module.exports = function () {
       }
     });
   }
-
 
   functions.createUser = function(req, res) {
     // console.log(req)
@@ -87,6 +88,8 @@ module.exports = function () {
       }
     );
   }
+
+// recipe functions
 
   functions.searchRecipes = function(req, res) {
     apiHelper.searchRecipesFromBigOven(req, res);
