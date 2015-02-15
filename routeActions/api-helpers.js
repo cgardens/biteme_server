@@ -1,6 +1,4 @@
 var request = require('request');
-var dotenv = require('dotenv');
-dotenv.load()
 
 apiHelper = {
 

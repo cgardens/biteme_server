@@ -1,3 +1,6 @@
+// initialize ENV VARS
+var dotenv    = require('dotenv');
+dotenv.load();
 
 //initialize app
 var express   = require('express');
@@ -6,6 +9,7 @@ var morgan    = require("morgan");
 var mongoose  = require("mongoose");
 var app       = express();
 var routes    = require('./routes')(app);
+
 
 // all environments
 var port = process.env.PORT || 9000;
