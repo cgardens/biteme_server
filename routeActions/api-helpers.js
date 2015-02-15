@@ -61,7 +61,7 @@ apiHelper = {
 
   //##############################################################################################
 
-  getRecipeFromBigOven: function(req, res){
+  getRecipeFromBigOven: function(req, res, callback){
     var result = 0,
         apiKey = process.env.BIG_OVEN_API_KEY,
         recipeID = req.params.id
@@ -79,7 +79,7 @@ apiHelper = {
 
                 })
                 .on('end', function() {
-                  apiHelper.sendCompleteRecipe(result, res);
+                  callback(result, res);
                 })
               // console.log(response);
               // console.log(response.statusCode) // 200
@@ -146,6 +146,24 @@ apiHelper = {
               }
 
     return toSend;
+  },
+
+  packageUserRecipes: function(result, res) {
+    console.log('this.counter')
+    console.log(this.counter)
+    console.log('this.listLength')
+    console.log(this.listLength)
+    parsedRecipe = apiHelper.parseRecipe(result)
+    this.userRecipes.push(parsedRecipe);
+    if(this.counter === this.listLength) {
+      apiHelper.sendUserRecipes(res, this.userRecipes);
+    }
+    this.counter ++
+  },
+
+  sendUserRecipes: function(res, toSend) {
+    console.log('here 3')
+    res.json(toSend)
   }
 }
 
