@@ -14,9 +14,6 @@ app.use(express.static(__dirname + '/public'));
 app.listen(port);
 console.log('Node express server running on port ' + port);
 
-//body parser
-
-
 //CORS Configuration
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');

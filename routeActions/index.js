@@ -17,18 +17,27 @@ module.exports = function () {
     });
   };
 
-// {email: 'gar@dev.com',
-//                           username: "gary",
-//                           password: "123",
-//                           firstName: "gary",
-//                           lastName: "guard",
-//                           recipes: [],
-//                           customRecipes: []
-//     }
+  functions.user = function (req, res) {
+    var id = req.param('id');
+    User.findOne({_id: id}, function(err, user) {
+      if (err) {
+          res.json({
+              type: false,
+              data: "Error occured: " + err
+          });
+      } else {
+          res.json({
+              type: true,
+              data: user
+          });
+      }
+    });
+  }
 
 
   functions.createUser = function(req, res) {
     // console.log(req)
+    parsedUser = JSON.parse(req.body.newUser);
     // req.param.userName = {email: 'charles@dev.com',
                           // username: "docgardens",
                           // password: "123",
@@ -37,11 +46,7 @@ module.exports = function () {
                           // recipes: [],
                           // customRecipes: [] }
 
-    var newUser = req.param('newUser');
-    console.log(req.param)
-    console.log(req.body)
-    console.log(newUser)
-    var record = new User(newUser);
+    var record = new User(parsedUser);
 
     record.save(function(err) {
       if (err) {
@@ -53,6 +58,35 @@ module.exports = function () {
 
     })
   };
+
+  functions.deleteUser = function (req, res) {
+    var id = req.param('id');
+
+    User.remove({_id: id}, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({status: 'success'})
+      }
+    });
+  };
+
+  functions.updateUser = function (req, res) {
+    var id = req.param('id');
+    parsedUserEdits = JSON.parse(req.body.editUser);
+
+    User.update({ _id: id },
+      { $set: parsedUserEdits},
+      function (err) {
+        if (err) {
+          console.log(err);
+          res.status(500).json({status: 'failure'});
+        } else {
+          res.json({status: 'success'});
+        }
+      }
+    );
+  }
 
   functions.searchRecipes = function(req, res) {
     apiHelper.searchRecipesFromBigOven(req, res);
