@@ -26,8 +26,11 @@ module.exports = function (app) {
   app.get('/admin/users/:id/recipes', routeActions.getUserRecipes)
   app.post('/admin/users/:id/recipes', urlencodedParser, routeActions.addUserRecipe)
 
-  //auth
-  app.post('/signup', urlencodedParser, routeActions.signup);
+//auth
+  app.post('/users/signup', urlencodedParser, routeActions.signup);
   app.post('/authenticate', urlencodedParser, routeActions.authenticate);
-  app.get('/users/:id routeActions.ensureAuthorized, routeActions.userProfile')
+  app.get('/users/:id', routeActions.ensureAuthorized, routeActions.userProfile)
+  app.post('/users/:id/recipes', routeActions.ensureAuthorized, urlencodedParser, routeActions.addUserRecipeAuthenticated)
+  //doesn't require auth
+  app.get('/users/:id/recipes', routeActions.getUserRecipes)
 };
