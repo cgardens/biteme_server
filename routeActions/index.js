@@ -203,6 +203,7 @@ module.exports = function () {
             } else {
               var userModel = new User();
               userModel.email = req.body.email;
+              userModel.username = req.body.username;
               userModel.firstName = req.body.firstName;
               userModel.lastName = req.body.lastName;
               userModel.password = req.body.password;
@@ -245,22 +246,23 @@ module.exports = function () {
     });
   };
 
-  functions.me = function(req, res) {
-    console.log("me", req.token);
-    User.findOne({token: req.token}, function(err, user) {
-        if (err) {
-            res.json({
-                type: false,
-                data: "Error occured: " + err
-            });
-        } else {
-            res.json({
-                type: true,
-                data: user
-            });
-        }
-    });
-  };
+  // from sams codebase
+  // functions.me = function(req, res) {
+  //   console.log("me", req.token);
+  //   User.findOne({token: req.token}, function(err, user) {
+  //       if (err) {
+  //           res.json({
+  //               type: false,
+  //               data: "Error occured: " + err
+  //           });
+  //       } else {
+  //           res.json({
+  //               type: true,
+  //               data: user
+  //           });
+  //       }
+  //   });
+  // };
 
   functions.userProfile = function (req, res) {
     console.log('user', req.token)
@@ -316,7 +318,22 @@ module.exports = function () {
     })
   }
 
-
+  functions.deleteUserAuthenticated = function (req, res) {
+    var id = req.param('id');
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      if (user) {
+        user.remove({_id: id}, function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json({status: 'success'})
+          }
+        })
+      } else {
+        res.json(403);
+      }
+    });
+  };
 
 
   return functions;
