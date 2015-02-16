@@ -31,7 +31,7 @@ module.exports = function (app) {
 
 //auth
   app.post('/users/signup', jsonParser, routeActions.signup);
-  app.post('/authenticate', urlencodedParser, routeActions.authenticate);
+  app.post('/authenticate', jsonParser, routeActions.authenticate);
   app.get('/users/:id', routeActions.ensureAuthorized, routeActions.userProfile)
   app.post('/users/:id/recipes', routeActions.ensureAuthorized, urlencodedParser, routeActions.addUserRecipeAuthenticated)
   //doesn't require auth

@@ -176,7 +176,7 @@ module.exports = function () {
     if (typeof bearerHeader !== 'undefined') {
         var bearer = bearerHeader.split(" ");
         console.log('bearer', bearer)
-        bearerToken = bearer[0];
+        bearerToken = bearer[1];
         // bearerToken = bearer[1];
         console.log('bearer token', bearerToken)
         req.token = bearerToken;
@@ -225,6 +225,7 @@ module.exports = function () {
   };
 
   functions.authenticate = function(req, res) {
+    console.log(req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         // console.log(user)
         if (err) {
