@@ -390,19 +390,26 @@ module.exports = function () {
   functions.searchUsers = function (req, res) {
     var requestedUsername = req.query.username
     User.findOne({username: requestedUsername}, function(err, user){
-      if (err) {
-        res.json({
-            type: false,
-            data: "Error occured: " + err
-        });
+      if (user) {
+        if (err) {
+          res.json({
+              type: false,
+              data: "Error occured: " + err
+          });
+        } else {
+          user.passowrd = 'redacted';
+          user.token = 'redacted';
+          res.json({
+              type: true,
+              status: 'success',
+              data: user
+          });
+        }
       } else {
-        user.passowrd = 'redacted';
-        user.token = 'redacted';
         res.json({
-            type: true,
-            status: 'success',
-            data: user
-        });
+          type: false,
+          msg: 'user not found'
+        })
       }
     })
   }
