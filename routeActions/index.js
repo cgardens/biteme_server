@@ -188,6 +188,8 @@ module.exports = function () {
   };
 
   functions.signup = function(req, res) {
+    // console.log(req);
+    console.log('req.body', req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         if (err) {
             res.json({
@@ -196,6 +198,7 @@ module.exports = function () {
             });
         } else {
             if (user) {
+                console.log(user)
                 res.json({
                     type: false,
                     data: "User already exists!"

@@ -30,7 +30,7 @@ module.exports = function (app) {
   app.get('/users/search', routeActions.searchUsers)
 
 //auth
-  app.post('/users/signup', urlencodedParser, routeActions.signup);
+  app.post('/users/signup', jsonParser, routeActions.signup);
   app.post('/authenticate', urlencodedParser, routeActions.authenticate);
   app.get('/users/:id', routeActions.ensureAuthorized, routeActions.userProfile)
   app.post('/users/:id/recipes', routeActions.ensureAuthorized, urlencodedParser, routeActions.addUserRecipeAuthenticated)
