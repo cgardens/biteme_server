@@ -161,7 +161,7 @@ module.exports = function () {
           console.log(err);
           res.status(500).json({status: err});
         } else {
-          res.json({status: 'success'})
+          res.json({status: 'success', added: recipeToAdd})
         }
       })
     })

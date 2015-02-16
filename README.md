@@ -61,8 +61,11 @@ type: DELETE
 http://localhost:3000/admin/users/:id
 
 ####Add User Recipe
-type: PUT
-http://localhost:3000/admin/users/:id/recipes/create
+type: POST
+http://localhost:3000/admin/users/:id/recipes/
+
+  requires the following data
+  recipeToAdd: VALID_BIG_OVEN_RECIPE_ID
 
 ####Get Users Recipes
 type: GET
