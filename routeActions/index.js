@@ -267,19 +267,22 @@ module.exports = function () {
     console.log('user request', req)
     var id = req.param('id');
     User.findOne({_id: id, token: req.token}, function(err, user) {
-      console.log(user)
-      user.token = 'redacted';
-      user.password = 'redacted';
-      if (err) {
-          res.json({
-              type: false,
-              data: "Error occured: " + err
-          });
+      if(user){
+        user.token = 'redacted';
+        user.password = 'redacted';
+        if (err) {
+            res.json({
+                type: false,
+                data: "Error occured: " + err
+            });
+        } else {
+            res.json({
+                type: true,
+                data: user
+            });
+        }
       } else {
-          res.json({
-              type: true,
-              data: user
-          });
+        res.send(403)
       }
     });
   }
