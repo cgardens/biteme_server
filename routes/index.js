@@ -29,5 +29,5 @@ module.exports = function (app) {
   //auth
   app.post('/signup', urlencodedParser, routeActions.signup);
   app.post('/authenticate', urlencodedParser, routeActions.authenticate);
-  app.get('/users/:id routeActions.ensureAuthorized,')
+  app.get('/users/:id routeActions.ensureAuthorized, routeActions.userProfile')
 };

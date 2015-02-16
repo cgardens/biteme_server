@@ -65,6 +65,7 @@ type: POST
 http://localhost:3000/admin/users/:id/recipes/
 
   requires the following data
+
   recipeToAdd: VALID_BIG_OVEN_RECIPE_ID
 
 ####Get Users Recipes
@@ -78,7 +79,9 @@ type: POST
 http:localhost:3000/signup
 
   this request needs the following key-value pairs:
+
   email: user@email.com,
+
   password: password
 
   this request will return a json object with the following information:
@@ -111,9 +114,13 @@ authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfX3YiOjAsInBhc3N3b3JkIjoi
 
 routes that require this header include:
 
+GET localhost:3000/users/:id
+
 
 ####User Profile
 type: GET
 localhost:3000/users/:id
+
+
 
 
