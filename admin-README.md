@@ -20,6 +20,8 @@ http://localhost:3000/admin/users/:id
 
 sample input: {editUser: {"email": "gary@dev.com", "username": "gary", "password": "123", "firstName": "gary", "lastName": "guard"}}
 
+NOTE THAT YOU MUST USE DOUBLE QUOTES HERE OR IT WON'T WORK.
+
 ####Delete a User
 type: DELETE
 http://localhost:3000/admin/users/:id

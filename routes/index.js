@@ -34,5 +34,7 @@ module.exports = function (app) {
   //doesn't require auth
   app.get('/users/:id/recipes', routeActions.getUserRecipes)
   //other restful user routes with auth
-  app.delete('/users/:id', routeActions.ensureAuthorized, routeActions.deleteUser);
+  app.put('/users/:id', routeActions.ensureAuthorized, urlencodedParser, routeActions.updateUserAuthenticated);
+  app.delete('/users/:id', routeActions.ensureAuthorized, routeActions.deleteUserAuthenticated);
+
 };

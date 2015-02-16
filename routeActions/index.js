@@ -172,7 +172,7 @@ module.exports = function () {
   functions.ensureAuthorized = function(req, res, next) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
-    console.log('authorization', req.headers["authorization"])
+    // console.log('authorization', req.headers["authorization"])
     if (typeof bearerHeader !== 'undefined') {
         var bearer = bearerHeader.split(" ");
         console.log('bearer', bearer)
@@ -322,18 +322,55 @@ module.exports = function () {
     var id = req.param('id');
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if (user) {
-        user.remove({_id: id}, function (err) {
+        User.remove({_id: id}, function (err) {
           if (err) {
             console.log(err);
+            res.json({status: 'error'})
           } else {
             res.json({status: 'success'})
           }
         })
       } else {
-        res.json(403);
+        res.send(403);
       }
     });
   };
+
+  functions.updateUserAuthenticated = function (req, res) {
+    var id = req.param('id');
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      if (user) {
+        parsedUserEdits = JSON.parse(req.body.editUser);
+
+        User.update({ _id: id },
+          { $set: parsedUserEdits },
+          function (err) {
+            if (err) {
+              console.log(err);
+              res.status(500).json({status: 'failure'});
+            } else {
+                    User.findOne({_id: id}, function(err, user) {
+                          if (err) {
+                              res.json({
+                                  type: false,
+                                  data: "Error occured: " + err
+                              });
+                          } else {
+                              res.json({
+                                  type: true,
+                                  status: 'success',
+                                  data: user
+                              });
+                          }
+                    });
+            }
+          }
+        );
+      } else {
+        res.send(403);
+      }
+    });
+  }
 
 
   return functions;

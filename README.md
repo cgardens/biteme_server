@@ -110,6 +110,19 @@ localhost:3000/users/:id/recipes
 type: GET
 http://localhost:3000/admin/users/:id/recipes
 
+####User Edit
+type: PUT
+http://localhost:3000/users/:id
+
+sample input: {editUser: {"email": "gary@dev.com", "username": "gary", "password": "123", "firstName": "gary", "lastName": "guard"}}
+
+NOTE THAT YOU MUST USE DOUBLE QUOTES HERE OR IT WON'T WORK.
+
+####User Delete
+type: DELETE
+http://localhost:3000/users/:id
+
+
 
 
 
