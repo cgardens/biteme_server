@@ -25,45 +25,113 @@ $ npm start
 
 ####Search Recipes (from Big Oven):
 type: GET
-http://localhost:9000/recipes/search?term=YOURSEARCHTERM
+http://localhost:3000/recipes/search?term=YOURSEARCHTERM
 
 ####Get Recipe By RecipeID (from Big Oven):
 type: GET
-http://localhost:9000/recipes/:recipeID
+http://localhost:3000/recipes/:recipeID
 
 sample ID: 175169
 
 
-###User Routes
+###User Auth Routes
 
-####Show All Users
-type: GET
-http://localhost:9000/users
-
-####Show One User (by ID)
-type: GET
-http://localhost:9000/users/:id
-
-####Create New User
+####Sign Up
 type: POST
-http://localhost:9000/users/create
+http:localhost:3000/users/signup
 
-sample input: {newUser: {"email": "gary@dev.com", "username": "gary", "password": "123", "firstName": "gary", "lastName": "guard"}}
+  this request needs the following key-value pairs:
 
-####Edit a User
+  email: user@email.com
+
+  username: username
+
+  password: password
+
+  firstName: firstname
+
+  lastName: lastname
+
+  this request will return a json object with the following information:
+
+```
+{
+  "type": true,
+  "data": {
+      "__v": 0,
+      "password": "123",
+      "email": "ralph@test.com",
+      "_id": "54e17397a05f37ef0a82c44d",
+      "customRecipes": [],
+      "recipes": []
+  },
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfX3YiOjAsInBhc3N3b3JkIjoiMTIzIiwiZW1haWwiOiJyYWxwaEB0ZXN0LmNvbSIsIl9pZCI6IjU0ZTE3Mzk3YTA1ZjM3ZWYwYTgyYzQ0ZCIsImN1c3RvbVJlY2lwZXMiOltdLCJyZWNpcGVzIjpbXX0.oMDZxitchaGOcGZz4qUMFHpC6Y7yyjV5kSGG1ycabTs"
+}
+```
+
+  you need to save the token in order to make requests to the biteme api for protected info.
+
+  you should also at least hang onto the _id, as that is the value needed to request user-specific information.
+
+####Authenticate a User (i.e. Login)
+type: POST
+http:localhost/authenticate
+
+This route requires a valid email and password
+username: user@dbc.com
+
+password: 123
+
+####Check Authorization
+The following is needed as header when trying access user-specific information.
+
+```
+authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfX3YiOjAsInBhc3N3b3JkIjoiMTIzIiwiZW1haWwiOiJyYWxwaEB0ZXN0LmNvbSIsIl9pZCI6IjU0ZTE3Mzk3YTA1ZjM3ZWYwYTgyYzQ0ZCIsImN1c3RvbVJlY2lwZXMiOltdLCJyZWNpcGVzIjpbXX0.oMDZxitchaGOcGZz4qUMFHpC6Y7yyjV5kSGG1ycabTs
+```
+
+routes that require this header include:
+
+GET localhost:3000/users/:id
+POST localhost:3000/users/:id/recipes
+
+####User Profile
+type: GET
+localhost:3000/users/:id
+
+####User Adds Recipe
+type: POST
+localhost:3000/users/:id/recipes
+
+  requires the following data
+
+  recipeToAdd: VALID_BIG_OVEN_RECIPE_ID
+
+####Get User's Recipes
+type: GET
+http://localhost:3000/admin/users/:id/recipes
+
+####User Edit
 type: PUT
-http://localhost:9000/users/:id
+http://localhost:3000/users/:id
 
 sample input: {editUser: {"email": "gary@dev.com", "username": "gary", "password": "123", "firstName": "gary", "lastName": "guard"}}
 
-####Delete a User
+NOTE THAT YOU MUST USE DOUBLE QUOTES HERE OR IT WON'T WORK.
+
+####User Delete
 type: DELETE
-http://localhost:9000/users/:id
+http://localhost:3000/users/:id
 
-####Add User Recipe
-type: PUT
-http://localhost:9000/users/:id/recipes/create
-
-####Get Users Recipes
+####View All Enrolled Users
 type: GET
-http://localhost:9000/users/:id/recipes
+http://localhost:3000/users
+
+####Search For a User
+type: GET
+http://localhost:3000/users/search?username=USERNAME
+
+
+
+
+
+
