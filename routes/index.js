@@ -26,6 +26,9 @@ module.exports = function (app) {
   app.get('/admin/users/:id/recipes', routeActions.getUserRecipes)
   app.post('/admin/users/:id/recipes', urlencodedParser, routeActions.addUserRecipe)
 
+  //doesn't require auth
+  app.get('/users/search', routeActions.searchUsers)
+
 //auth
   app.post('/users/signup', urlencodedParser, routeActions.signup);
   app.post('/authenticate', urlencodedParser, routeActions.authenticate);
@@ -36,5 +39,5 @@ module.exports = function (app) {
   //other restful user routes with auth
   app.put('/users/:id', routeActions.ensureAuthorized, urlencodedParser, routeActions.updateUserAuthenticated);
   app.delete('/users/:id', routeActions.ensureAuthorized, routeActions.deleteUserAuthenticated);
-
+  app.get('/users', routeActions.usersPublic)
 };

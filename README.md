@@ -122,6 +122,14 @@ NOTE THAT YOU MUST USE DOUBLE QUOTES HERE OR IT WON'T WORK.
 type: DELETE
 http://localhost:3000/users/:id
 
+####View All Enrolled Users
+type: GET
+http://localhost:3000/users
+
+####Search For a User
+type: GET
+http://localhost:3000/users/search?username=USERNAME
+
 
 
 
