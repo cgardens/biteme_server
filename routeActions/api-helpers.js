@@ -1,8 +1,9 @@
 var request = require('request');
 
+// Models
+var Recipe = require('../schemas/recipe');
+
 apiHelper = {
-
-
 
   searchRecipesFromBigOven: function(req, res) {
     var result = 0,
@@ -147,7 +148,15 @@ apiHelper = {
   },
 
   saveRecipeFromBigOven: function(req, res){
-    res.send("string testing");
+    var recipe = new Recipe(req.body.recipe);
+
+    recipe.save(function(err, recipe){
+      if (err) {
+        console.error(err);
+      }
+
+      res.send(recipe);
+    });
   }
 
 }
