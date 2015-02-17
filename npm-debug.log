@@ -1,34 +1,87 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'ngStorage' ]
 2 info using npm@2.1.3
 3 info using node@v0.10.32
 4 verbose node symlink /usr/local/bin/node
-5 verbose run-script [ 'prestart', 'start', 'poststart' ]
-6 info prestart node-express-skeleton@0.0.1
-7 info start node-express-skeleton@0.0.1
-8 verbose unsafe-perm in lifecycle true
-9 info node-express-skeleton@0.0.1 Failed to exec start script
-10 verbose stack Error: node-express-skeleton@0.0.1 start: `node server.js`
-10 verbose stack Exit status 8
-10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
-10 verbose stack     at ChildProcess.emit (events.js:98:17)
-10 verbose stack     at maybeClose (child_process.js:756:16)
-10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:823:5)
-11 verbose pkgid node-express-skeleton@0.0.1
-12 verbose cwd /Users/Charles/Desktop/biteme_server
-13 error Darwin 14.1.0
-14 error argv "node" "/usr/local/bin/npm" "start"
-15 error node v0.10.32
-16 error npm  v2.1.3
-17 error code ELIFECYCLE
-18 error node-express-skeleton@0.0.1 start: `node server.js`
-18 error Exit status 8
-19 error Failed at the node-express-skeleton@0.0.1 start script.
-19 error This is most likely a problem with the node-express-skeleton package,
-19 error not with npm itself.
-19 error Tell the author that this fails on your system:
-19 error     node server.js
-19 error You can get their info via:
-19 error     npm owner ls node-express-skeleton
-19 error There is likely additional logging output above.
-20 verbose exit [ 1, true ]
+5 silly cache add args [ 'ngStorage', null ]
+6 verbose cache add spec ngStorage
+7 silly cache add parsed spec { raw: 'ngStorage',
+7 silly cache add   scope: null,
+7 silly cache add   name: 'ngStorage',
+7 silly cache add   rawSpec: '',
+7 silly cache add   spec: '*',
+7 silly cache add   type: 'range' }
+8 verbose addNamed ngStorage@*
+9 verbose addNamed ngStorage@* not in flight; adding
+10 silly addNamed semver.valid null
+11 silly addNamed semver.validRange *
+12 silly addNameRange { name: 'ngStorage', range: '*', hasData: false }
+13 verbose mapToRegistry name ngStorage
+14 verbose mapToRegistry uri https://registry.npmjs.org/ngStorage
+15 verbose request on initialization, where is /ngStorage
+16 verbose request after pass 1, where is /ngStorage
+17 verbose request url raw /ngStorage
+18 verbose request resolving registry [ 'https://registry.npmjs.org/', './ngStorage' ]
+19 verbose request after pass 2, where is https://registry.npmjs.org/ngStorage
+20 verbose request no auth needed
+21 info attempt registry request try #1 at 12:21:48
+22 verbose request id eb327b70bdff8a29
+23 http request GET https://registry.npmjs.org/ngStorage
+24 http 404 https://registry.npmjs.org/ngStorage
+25 verbose headers { date: 'Mon, 16 Feb 2015 20:21:48 GMT',
+25 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+25 verbose headers   'content-type': 'application/json',
+25 verbose headers   'cache-control': 'max-age=0',
+25 verbose headers   'content-length': '52',
+25 verbose headers   'accept-ranges': 'bytes',
+25 verbose headers   via: '1.1 varnish',
+25 verbose headers   age: '0',
+25 verbose headers   'x-served-by': 'cache-lax1432-LAX',
+25 verbose headers   'x-cache': 'MISS',
+25 verbose headers   'x-cache-hits': '0',
+25 verbose headers   'x-timer': 'S1424118108.586229,VS0,VE75',
+25 verbose headers   'keep-alive': 'timeout=10, max=50',
+25 verbose headers   connection: 'Keep-Alive' }
+26 silly registry.get cb [ 404,
+26 silly registry.get   { date: 'Mon, 16 Feb 2015 20:21:48 GMT',
+26 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 silly registry.get     'content-type': 'application/json',
+26 silly registry.get     'cache-control': 'max-age=0',
+26 silly registry.get     'content-length': '52',
+26 silly registry.get     'accept-ranges': 'bytes',
+26 silly registry.get     via: '1.1 varnish',
+26 silly registry.get     age: '0',
+26 silly registry.get     'x-served-by': 'cache-lax1432-LAX',
+26 silly registry.get     'x-cache': 'MISS',
+26 silly registry.get     'x-cache-hits': '0',
+26 silly registry.get     'x-timer': 'S1424118108.586229,VS0,VE75',
+26 silly registry.get     'keep-alive': 'timeout=10, max=50',
+26 silly registry.get     connection: 'Keep-Alive' } ]
+27 verbose stack Error: 404 Not Found: ngStorage
+27 verbose stack     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:258:14)
+27 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:197:65)
+27 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:237:22)
+27 verbose stack     at Request.emit (events.js:98:17)
+27 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1146:14)
+27 verbose stack     at Request.emit (events.js:117:20)
+27 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1097:12)
+27 verbose stack     at IncomingMessage.emit (events.js:117:20)
+27 verbose stack     at _stream_readable.js:943:16
+27 verbose stack     at process._tickCallback (node.js:419:13)
+28 verbose statusCode 404
+29 verbose pkgid ngStorage
+30 verbose cwd /Users/Charles/Desktop/biteme_server
+31 error Darwin 14.1.0
+32 error argv "node" "/usr/local/bin/npm" "install" "ngStorage"
+33 error node v0.10.32
+34 error npm  v2.1.3
+35 error code E404
+36 error 404 Not Found: ngStorage
+36 error 404
+36 error 404 'ngStorage' is not in the npm registry.
+36 error 404 You should bug the author to publish it (or use the name yourself!)
+36 error 404 It was specified as a dependency of 'node-express-skeleton'
+36 error 404
+36 error 404 Note that you can also install from a
+36 error 404 tarball, folder, http url, or git url.
+37 verbose exit [ 1, true ]

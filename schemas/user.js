@@ -7,6 +7,7 @@ var userSchema = new Schema({
   password: String,
   firstName: String,
   lastName: String,
+  token: String,
   recipes: Array,
   customRecipes: Array
 });
