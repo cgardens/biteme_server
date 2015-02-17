@@ -60,7 +60,7 @@ apiHelper = {
 
   //##############################################################################################
 
-  getRecipeFromBigOven: function(req, res, callback){
+  getRecipeFromBigOven: function(req, res, user, callback){
     var result = 0,
         apiKey = process.env.BIG_OVEN_API_KEY,
         recipeID = req.params.id
@@ -78,7 +78,7 @@ apiHelper = {
 
                 })
                 .on('end', function() {
-                  callback(result, res);
+                  callback(result, res, user);
                 })
               // console.log(response);
               // console.log(response.statusCode) // 200
@@ -147,7 +147,7 @@ apiHelper = {
     return toSend;
   },
 
-  packageUserRecipes: function(result, res) {
+  packageUserRecipes: function(result, res, user) {
     // console.log('this.counter')
     // console.log(this.counter)
     // console.log('this.listLength')
@@ -155,13 +155,21 @@ apiHelper = {
     parsedRecipe = result
     this.userRecipes.push(parsedRecipe);
     if(this.counter === this.listLength) {
-      apiHelper.sendUserRecipes(res, this.userRecipes);
+
+      apiHelper.sendUserRecipes(res, this.userRecipes, user);
     }
     this.counter ++
   },
 
-  sendUserRecipes: function(res, toSend) {
+  sendUserRecipes: function(res, toSend, user) {
     toSend = apiHelper.parseIndividualRecipesToListFormat(toSend)
+          //for each
+    console.log('USER', user)
+    console.log('to send', toSend)
+    user.customRecipes.forEach(function(customRecipe){
+      toSend.recipes.push(customRecipe);
+    })
+
     res.json(toSend)
   },
 

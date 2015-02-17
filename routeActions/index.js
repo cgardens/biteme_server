@@ -109,7 +109,7 @@ module.exports = function () {
   };
 
   functions.getRecipe = function (req, res) {
-    apiHelper.getRecipeFromBigOven(req, res, apiHelper.sendCompleteRecipe);
+    apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.sendCompleteRecipe);
   };
 
 
@@ -135,7 +135,7 @@ module.exports = function () {
           this.listLength = user.recipes.length
           user.recipes.forEach(function(element){
             req.params.id = element
-            apiHelper.getRecipeFromBigOven(req, res, apiHelper.packageUserRecipes.bind(self))
+            apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.packageUserRecipes.bind(self))
           })
 
         }
@@ -176,10 +176,10 @@ module.exports = function () {
     // console.log('authorization', req.headers["authorization"])
     if (typeof bearerHeader !== 'undefined') {
         var bearer = bearerHeader.split(" ");
-        console.log('bearer', bearer)
+        // console.log('bearer', bearer)
         bearerToken = bearer[1];
         // bearerToken = bearer[1];
-        console.log('bearer token', bearerToken)
+        // console.log('bearer token', bearerToken)
         req.token = bearerToken;
         next();
     } else {
@@ -190,7 +190,7 @@ module.exports = function () {
 
   functions.signup = function(req, res) {
     // console.log(req);
-    console.log('req.body', req.body)
+    // console.log('req.body', req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         if (err) {
             res.json({
@@ -199,7 +199,7 @@ module.exports = function () {
             });
         } else {
             if (user) {
-                console.log(user)
+                // console.log(user)
                 res.json({
                     type: false,
                     data: "User already exists!"
@@ -226,7 +226,7 @@ module.exports = function () {
   };
 
   functions.authenticate = function(req, res) {
-    console.log(req.body)
+    // console.log(req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         // console.log(user)
         if (err) {
@@ -270,8 +270,8 @@ module.exports = function () {
   // };
 
   functions.userProfile = function (req, res) {
-    console.log('user', req.token)
-    console.log('user request', req)
+    // console.log('user', req.token)
+    // console.log('user request', req)
     var id = req.param('id');
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
@@ -298,7 +298,7 @@ module.exports = function () {
     var id = req.param('id'),
         recipeToAdd = req.body.recipeToAdd,
         updatedRecipesList;
-        console.log(req.token)
+        // console.log(req.token)
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
@@ -327,7 +327,7 @@ module.exports = function () {
     var id = req.param('id'),
         recipeToAdd = req.body.recipeToAdd,
         updatedCustomRecipesList;
-        console.log(req.token)
+        // console.log(req.token)
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
