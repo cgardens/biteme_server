@@ -167,6 +167,16 @@ module.exports = function () {
     })
   };
 
+  functions.addCustomUserRecipeAuthenticated = function (req, res) {
+    var id = req.param('id'),
+        recipeToAdd = req.body.recipeToAdd,
+        updatedRecipesList;
+    User.findOne({_id: id}, function(err, user) {
+      if(!user.recipes) {
+        user.customRecipes = []
+      }
+  }
+
   //auth
 
   functions.ensureAuthorized = function(req, res, next) {
