@@ -15,8 +15,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 module.exports = function (app) {
   app.get('/admin/users', routeActions.users);
   app.get('/admin/users/:id', routeActions.user)
-  app.post('/admin/users/create', urlencodedParser, jsonParser, routeActions.createUser);
-  app.put('/admin/users/:id', urlencodedParser, routeActions.updateUser);
+  app.post('/admin/users/create', jsonParser, routeActions.createUser);
+  app.put('/admin/users/:id', jsonParser, routeActions.updateUser);
   app.delete('/admin/users/:id', routeActions.deleteUser);
 
 
@@ -24,7 +24,7 @@ module.exports = function (app) {
   app.get('/recipes/:id', routeActions.getRecipe);
 
   app.get('/admin/users/:id/recipes', routeActions.getUserRecipes)
-  app.post('/admin/users/:id/recipes', urlencodedParser, routeActions.addUserRecipe)
+  app.post('/admin/users/:id/recipes', jsonParser, routeActions.addUserRecipe)
 
   //doesn't require auth
   app.get('/users/search', routeActions.searchUsers)
@@ -33,11 +33,11 @@ module.exports = function (app) {
   app.post('/users/signup', jsonParser, routeActions.signup);
   app.post('/authenticate', jsonParser, routeActions.authenticate);
   app.get('/users/:id', routeActions.ensureAuthorized, routeActions.userProfile)
-  app.post('/users/:id/recipes', routeActions.ensureAuthorized, urlencodedParser, routeActions.addUserRecipeAuthenticated)
+  app.post('/users/:id/recipes', routeActions.ensureAuthorized, jsonParser, routeActions.addUserRecipeAuthenticated)
   //doesn't require auth
   app.get('/users/:id/recipes', routeActions.getUserRecipes)
   //other restful user routes with auth
-  app.put('/users/:id', routeActions.ensureAuthorized, urlencodedParser, routeActions.updateUserAuthenticated);
+  app.put('/users/:id', routeActions.ensureAuthorized, jsonParser, routeActions.updateUserAuthenticated);
   app.delete('/users/:id', routeActions.ensureAuthorized, routeActions.deleteUserAuthenticated);
   app.get('/users', routeActions.usersPublic)
 };
