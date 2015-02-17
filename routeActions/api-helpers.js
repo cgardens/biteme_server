@@ -133,12 +133,12 @@ apiHelper = {
                 title: title,
                 description: description,
                 cuisine: cuisine,
-                ingredients: parsedIngredients,
+                ingredients: parsedIngredients, //delete
                 instructions: instructions,
-                currentStep: currentStep,
+                currentStep: currentStep,  //delete
                 rating: rating,
                 imageURL: imageURL,
-                bigOvenLink: bigOvenLink,
+                bigOvenLink: bigOvenLink, //delete
                 servings: { yieldNumber: yieldNumber,
                           yieldUnit: yieldUnit },
                 ingredientsVerbose: ingredients

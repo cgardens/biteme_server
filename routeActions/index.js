@@ -167,15 +167,6 @@ module.exports = function () {
     })
   };
 
-  functions.addCustomUserRecipeAuthenticated = function (req, res) {
-    var id = req.param('id'),
-        recipeToAdd = req.body.recipeToAdd,
-        updatedRecipesList;
-    User.findOne({_id: id}, function(err, user) {
-      if(!user.recipes) {
-        user.customRecipes = []
-      }
-  }
 
   //auth
 
@@ -317,6 +308,35 @@ module.exports = function () {
 
         user.recipes.push(recipeToAdd)
         updatedRecipesList = user.recipes
+
+        user.save(function(err) {
+          if (err) {
+            console.log(err);
+            res.status(500).json({status: err});
+          } else {
+            res.json({status: 'success', added: recipeToAdd})
+          }
+        })
+      } else {
+        res.send(403)
+      }
+    })
+  }
+
+  functions.addCustomUserRecipeAuthenticated = function (req, res) {
+    var id = req.param('id'),
+        recipeToAdd = req.body.recipeToAdd,
+        updatedCustomRecipesList;
+        console.log(req.token)
+
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      if(user){
+        if(!user.customRecipes) {
+          user.customRecipes = []
+        }
+
+        user.customRecipes.push(recipeToAdd)
+        updatedCustomRecipesList = user.customRecipes
 
         user.save(function(err) {
           if (err) {
