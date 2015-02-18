@@ -179,16 +179,18 @@ apiHelper = {
     recipes = [];
     toSend.recipeCount = extractedRecipeCount;
     arrayOfFullRecipes.forEach(function(recipe){
-      recipe = JSON.parse(recipe);
-      recipes.push({recipeID: recipe.RecipeID,
-                    title: recipe.Title,
-                    cuisine: recipe.Cuisine,
-                    rating: recipe.StarRating,
-                    bigOvenURL: recipe.WebURL,
-                    imageURL: recipe.ImageURL,
-                    reviewCount: recipe.ReviewCount,
-                    totalTries: null, //recipe show pages do not have totalTries
-                    dateAdded: recipe.CreationDate})
+      if(recipe[0]!=="<") {
+        recipe = JSON.parse(recipe);
+        recipes.push({recipeID: recipe.RecipeID,
+                      title: recipe.Title,
+                      cuisine: recipe.Cuisine,
+                      rating: recipe.StarRating,
+                      bigOvenURL: recipe.WebURL,
+                      imageURL: recipe.ImageURL,
+                      reviewCount: recipe.ReviewCount,
+                      totalTries: null, //recipe show pages do not have totalTries
+                      dateAdded: recipe.CreationDate})
+      }
     })
     toSend.recipes = recipes
     return toSend
