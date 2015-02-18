@@ -108,7 +108,7 @@ module.exports = function () {
     apiHelper.searchRecipesFromBigOven(req, res);
   };
 
-  functions.getRecipe = function (req, res) {
+  functions.getRecipe = function (req, res, user) {
     apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.sendCompleteRecipe);
   };
 
@@ -328,6 +328,9 @@ module.exports = function () {
         recipeToAdd = req.body.recipeToAdd,
         updatedCustomRecipesList;
         // console.log(req.token)
+        console.log(recipeToAdd)
+        recipeToAdd.name = recipeToAdd.title
+        recipeToAdd.rating = 0
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
