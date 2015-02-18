@@ -307,16 +307,16 @@ module.exports = function () {
                       });
                     });
 
-                  // res.send(userInfo);
-                  // myResults.push(newchunk)
-                } else {
-                  res.json({
-                      type: true,
-                      data: user,
-                      token: user.token
-                      });
-                }
-              })
+                    // res.send(userInfo);
+                    // myResults.push(newchunk)
+                  } else {
+                    res.json({
+                        type: true,
+                        data: user,
+                        token: user.token
+                        });
+                  }
+                })
               // .on('end', function() {
               //   console.log('request is done:', myResults)
               })
