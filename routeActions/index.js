@@ -268,13 +268,14 @@ module.exports = function () {
     console.log("called back from fb");
     var redirect_uri = "http://localhost:3000/fb_authenticate"
     var code = req.param('code');
+    console.log('code', code)
     var url = "https://graph.facebook.com/oauth/access_token?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&client_secret=" + process.env.FACEBOOK_APP_SECRET + "&code=" + code
 
     request.get({url:url, json:true})
       .on('response', function(response) {
         response
           .on('data', function(chunk) {
-           console.log('should be a user acces token: ' + chunk);
+           console.log('should be a user access token: ' + chunk);
            // res.send(chunk);
             // var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
             var url = "https://graph.facebook.com/me?" + chunk;
