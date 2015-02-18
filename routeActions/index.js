@@ -357,8 +357,9 @@ module.exports = function () {
         // console.log(req.token)
 
     console.log(recipeToAdd)
-    recipeToAdd.name = recipeToAdd.title
-    recipeToAdd.rating = 0
+    recipeToAdd.name = recipeToAdd.title;
+    recipeToAdd.rating = 0;
+    recipeToAdd.customRecipe = true;
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       recipeToAdd.customRecipeId = user.customRecipes.length || 0
