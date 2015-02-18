@@ -130,6 +130,49 @@ http://localhost:3000/users
 type: GET
 http://localhost:3000/users/search?username=USERNAME
 
+###Custom Recipe Routes
+
+####Add Custom Recipe
+type: POST
+http://localhost:3000/users/:id/recipes/custom
+
+pass in the following info:
+```
+{customRecipeId: 1,
+servings: {
+  yieldUnit: "desert rabbits",
+  yieldNumber: "25"
+},
+imageURL: "https://lh4.googleusercontent.com/-OW6DktCVsrs/AAAAAAAAAAI/AAAAAAAAAAA/GYit4qKfKGs/s128-c-k/photo.jpg",
+instructions: [
+  "sherif all over keyboard",
+  "brain explodes"
+],
+ingredientsVerbose: [
+  {
+    PreparationNotes: "",
+    Unit: "and only",
+    Quantity: "the one",
+    Name: "sherif",
+    id: "1"
+  },
+  {
+    PreparationNotes: "",
+    Unit: "units",
+    Quantity: "10",
+    Name: "computers",
+    id: 2
+  }
+],
+cuisine: "american",
+description: "bootcamp",
+title: "DBC"
+```
+
+####Show Custom Recipe Page
+type: GET
+http://localhost:3000/users/:id/customrecipe/:customRecipeId
+showpage for custom recipe
 
 
 

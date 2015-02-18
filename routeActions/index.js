@@ -108,9 +108,36 @@ module.exports = function () {
     apiHelper.searchRecipesFromBigOven(req, res);
   };
 
-  functions.getRecipe = function (req, res) {
-    apiHelper.getRecipeFromBigOven(req, res, apiHelper.sendCompleteRecipe);
+  functions.getRecipe = function (req, res, user) {
+    apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.sendCompleteRecipe);
   };
+
+  functions.getCustomRecipe = function (req, res) {
+    var id = req.param('id'),
+        customRecipeId = req.param('customRecipeId');
+
+    console.log('id', id)
+
+    User.findOne({_id: id}, function(err, user) {
+      var sent = false
+      if (user.customRecipes) {
+        user.customRecipes.forEach(function(customRecipe) {
+          console.log('customRecipeId', customRecipeId)
+          console.log("db recipe id", customRecipe.customRecipeId)
+          if(customRecipe.customRecipeId==customRecipeId) {
+            sent = true
+            res.json(customRecipe)
+          }
+        })
+        if(!sent) {
+          res.json({ type: false, msg: 'user has no custom recipe with id number ' + customRecipeId })
+        }
+      } else {
+        res.json({ type: false, msg: 'user has no custom recipes' });
+      }
+    })
+
+  }
 
 
   functions.getUserRecipes = function (req, res) {
@@ -135,7 +162,7 @@ module.exports = function () {
           this.listLength = user.recipes.length
           user.recipes.forEach(function(element){
             req.params.id = element
-            apiHelper.getRecipeFromBigOven(req, res, apiHelper.packageUserRecipes.bind(self))
+            apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.packageUserRecipes.bind(self))
           })
 
         }
@@ -167,6 +194,7 @@ module.exports = function () {
     })
   };
 
+
   //auth
 
   functions.ensureAuthorized = function(req, res, next) {
@@ -175,10 +203,10 @@ module.exports = function () {
     // console.log('authorization', req.headers["authorization"])
     if (typeof bearerHeader !== 'undefined') {
         var bearer = bearerHeader.split(" ");
-        console.log('bearer', bearer)
+        // console.log('bearer', bearer)
         bearerToken = bearer[1];
         // bearerToken = bearer[1];
-        console.log('bearer token', bearerToken)
+        // console.log('bearer token', bearerToken)
         req.token = bearerToken;
         next();
     } else {
@@ -189,7 +217,7 @@ module.exports = function () {
 
   functions.signup = function(req, res) {
     // console.log(req);
-    console.log('req.body', req.body)
+    // console.log('req.body', req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         if (err) {
             res.json({
@@ -198,7 +226,7 @@ module.exports = function () {
             });
         } else {
             if (user) {
-                console.log(user)
+                // console.log(user)
                 res.json({
                     type: false,
                     data: "User already exists!"
@@ -225,7 +253,7 @@ module.exports = function () {
   };
 
   functions.authenticate = function(req, res) {
-    console.log(req.body)
+    // console.log(req.body)
     User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
         // console.log(user)
         if (err) {
@@ -269,8 +297,8 @@ module.exports = function () {
   // };
 
   functions.userProfile = function (req, res) {
-    console.log('user', req.token)
-    console.log('user request', req)
+    // console.log('user', req.token)
+    // console.log('user request', req)
     var id = req.param('id');
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
@@ -297,7 +325,7 @@ module.exports = function () {
     var id = req.param('id'),
         recipeToAdd = req.body.recipeToAdd,
         updatedRecipesList;
-        console.log(req.token)
+        // console.log(req.token)
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){
@@ -307,6 +335,43 @@ module.exports = function () {
 
         user.recipes.push(recipeToAdd)
         updatedRecipesList = user.recipes
+
+        user.save(function(err) {
+          if (err) {
+            console.log(err);
+            res.status(500).json({status: err});
+          } else {
+            res.json({status: 'success', added: recipeToAdd})
+          }
+        })
+      } else {
+        res.send(403)
+      }
+    })
+  }
+
+  functions.addCustomUserRecipeAuthenticated = function (req, res) {
+    var id = req.param('id'),
+        recipeToAdd = req.body.recipeToAdd,
+        updatedCustomRecipesList;
+        // console.log(req.token)
+
+    console.log(recipeToAdd)
+    recipeToAdd.name = recipeToAdd.title
+    recipeToAdd.rating = 0
+
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      recipeToAdd.customRecipeId = user.customRecipes.length || 0
+    })
+
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      if(user){
+        if(!user.customRecipes) {
+          user.customRecipes = []
+        }
+
+        user.customRecipes.push(recipeToAdd)
+        updatedCustomRecipesList = user.customRecipes
 
         user.save(function(err) {
           if (err) {
