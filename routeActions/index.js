@@ -3,6 +3,11 @@ var apiHelper = require('../routeActions/api-helpers.js');
 var bodyParser = require('body-parser')
 var jwt = require("jsonwebtoken");
 
+var https = require('https');
+var request = require('request');
+var dotenv = require('dotenv');
+dotenv.load()
+
 module.exports = function () {
 
   var functions = {};
@@ -251,6 +256,96 @@ module.exports = function () {
         }
     });
   };
+
+  functions.facebookSignup = function(req, res) {
+    var redirect_uri = "http://localhost:3000/fb_authenticate"
+    var url = "https://www.facebook.com/dialog/oauth?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&scope=email";
+    // request.get({url:url, json:true})
+   res.redirect(url);
+  }
+
+  functions.facebookAuthenticate = function(req, res) {
+    console.log("called back from fb");
+    var redirect_uri = "http://localhost:3000/fb_authenticate"
+    var code = req.param('code');
+    var url = "https://graph.facebook.com/oauth/access_token?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&client_secret=" + process.env.FACEBOOK_APP_SECRET + "&code=" + code
+
+    request.get({url:url, json:true})
+      .on('response', function(response) {
+        response
+          .on('data', function(chunk) {
+           console.log('should be a user acces token: ' + chunk);
+           // res.send(chunk);
+            // var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
+            var url = "https://graph.facebook.com/me?" + chunk;
+            console.log('url', url)
+            request.get({url:url, json:true, encoded:null})
+              .on('response', function(newresponse){
+              console.log('url in get request', newresponse)
+              newresponse.on('data', function(newchunk){
+                console.log("new chunk:", newchunk);
+                var userInfo = JSON.parse(newchunk.toString())
+
+                User.findOne({facebookId: userInfo.id}, function(err, user) {
+                  if (!user) {
+
+                    var userModel = new User();
+                    userModel.facebookId = userInfo.id
+                    userModel.firstName = userInfo.first_name
+                    userModel.email = userInfo.email
+                    userModel.customRecipes = []
+                    userModel.recipes = []
+                    userModel.token = jwt.sign(userModel, 'shhhhh')
+
+                    console.log(userModel);
+
+                    userModel.save(function(err, user) {
+                    res.json({
+                      type: true,
+                      data: user,
+                      token: user.token
+                      });
+                    });
+
+                  // res.send(userInfo);
+                  // myResults.push(newchunk)
+                } else {
+                  res.json({
+                      type: true,
+                      data: user,
+                      token: user.token
+                      });
+                }
+              })
+              // .on('end', function() {
+              //   console.log('request is done:', myResults)
+              })
+            })
+          })
+      });
+  }
+
+  functions.facebookRequest = function(req, res) {
+    var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
+    var url = "https://graph.facebook.com/me?" + accessToken;
+    console.log('url', url)
+    request.get({url:url, json:true, encoded:null})
+      .on('response', function(newresponse){
+      console.log('url in get request', newresponse)
+      newresponse.on('data', function(newchunk){
+        console.log("new chunk:", newchunk);
+        console.log(newchunk.toString());
+        res.json(newchunk);
+        // myResults.push(newchunk)
+      })
+      // .on('end', function() {
+      //   console.log('request is done:', myResults)
+      // })
+    })
+
+  }
+
+
 
   functions.authenticate = function(req, res) {
     // console.log(req.body)

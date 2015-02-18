@@ -9,7 +9,8 @@ var userSchema = new Schema({
   lastName: String,
   token: String,
   recipes: Array,
-  customRecipes: Array
+  customRecipes: Array,
+  facebookId: String
 });
 
 module.exports = mongoose.model('User', userSchema);
