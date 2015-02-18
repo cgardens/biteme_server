@@ -112,6 +112,28 @@ module.exports = function () {
     apiHelper.getRecipeFromBigOven(req, res, user, apiHelper.sendCompleteRecipe);
   };
 
+  functions.getCustomRecipe = function (req, res) {
+    var id = req.param('id'),
+        customRecipeId = req.param('customRecipeId');
+
+    console.log('id', id)
+
+    User.findOne({_id: id}, function(err, user) {
+      if (user.customRecipes) {
+        user.customRecipes.forEach(function(customRecipe) {
+          console.log('customRecipeId', customRecipeId)
+          console.log("db recipe id", customRecipe.customRecipeId)
+          if(customRecipe.customRecipeId==customRecipeId) {
+            res.json(customRecipe)
+          }
+        })
+      } else {
+        res.json({ type: false, msg: 'user has no custom recipes' });
+      }
+    })
+
+  }
+
 
   functions.getUserRecipes = function (req, res) {
     var id = req.param('id'),
@@ -328,9 +350,14 @@ module.exports = function () {
         recipeToAdd = req.body.recipeToAdd,
         updatedCustomRecipesList;
         // console.log(req.token)
-        console.log(recipeToAdd)
-        recipeToAdd.name = recipeToAdd.title
-        recipeToAdd.rating = 0
+
+    console.log(recipeToAdd)
+    recipeToAdd.name = recipeToAdd.title
+    recipeToAdd.rating = 0
+
+    User.findOne({_id: id, token: req.token}, function(err, user) {
+      recipeToAdd.customRecipeId = user.customRecipes.length || 0
+    })
 
     User.findOne({_id: id, token: req.token}, function(err, user) {
       if(user){

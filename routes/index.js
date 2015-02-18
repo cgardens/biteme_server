@@ -21,6 +21,7 @@ module.exports = function (app) {
 
 
   app.get('/recipes/search', routeActions.searchRecipes);
+  app.get('/users/:id/customrecipe/:customRecipeId', routeActions.getCustomRecipe)
   app.get('/recipes/:id', routeActions.getRecipe);
 
   app.get('/admin/users/:id/recipes', routeActions.getUserRecipes)
