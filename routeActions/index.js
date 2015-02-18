@@ -119,14 +119,19 @@ module.exports = function () {
     console.log('id', id)
 
     User.findOne({_id: id}, function(err, user) {
+      var sent = false
       if (user.customRecipes) {
         user.customRecipes.forEach(function(customRecipe) {
           console.log('customRecipeId', customRecipeId)
           console.log("db recipe id", customRecipe.customRecipeId)
           if(customRecipe.customRecipeId==customRecipeId) {
+            sent = true
             res.json(customRecipe)
           }
         })
+        if(!sent) {
+          res.json({ type: false, msg: 'user has no custom recipe with id number ' + customRecipeId })
+        }
       } else {
         res.json({ type: false, msg: 'user has no custom recipes' });
       }
