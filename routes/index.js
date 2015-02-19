@@ -32,6 +32,14 @@ module.exports = function (app) {
 
 //auth
   app.post('/users/signup', jsonParser, routeActions.signup);
+
+  app.get('/facebook_signup', routeActions.facebookSignup);
+  app.get('/fb_authenticate', routeActions.facebookAuthenticate);
+  app.get('/fb_request', routeActions.facebookRequest);
+
+
+
+
   app.post('/authenticate', jsonParser, routeActions.authenticate);
   app.get('/users/:id', routeActions.ensureAuthorized, routeActions.userProfile)
   app.post('/users/:id/recipes/custom', routeActions.ensureAuthorized, jsonParser, routeActions.addCustomUserRecipeAuthenticated)

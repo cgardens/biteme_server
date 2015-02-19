@@ -18,7 +18,7 @@ apiHelper = {
             .on('response', function(response) {
               response
                 .on('data', function(chunk) {
-                 // console.log('BODY: ' + chunk);
+                 console.log('BODY: ' + chunk);
                  if (!result) {
                   result = chunk
                 } else {
