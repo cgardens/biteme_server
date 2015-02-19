@@ -331,25 +331,25 @@ module.exports = function () {
       });
   }
 
-  functions.facebookRequest = function(req, res) {
-    var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
-    var url = "https://graph.facebook.com/me?" + accessToken;
-    console.log('url', url)
-    request.get({url:url, json:true, encoded:null})
-      .on('response', function(newresponse){
-      console.log('url in get request', newresponse)
-      newresponse.on('data', function(newchunk){
-        console.log("new chunk:", newchunk);
-        console.log(newchunk.toString());
-        res.json(newchunk);
-        // myResults.push(newchunk)
-      })
-      // .on('end', function() {
-      //   console.log('request is done:', myResults)
-      // })
-    })
+  // functions.facebookRequest = function(req, res) {
+  //   var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
+  //   var url = "https://graph.facebook.com/me?" + accessToken;
+  //   console.log('url', url)
+  //   request.get({url:url, json:true, encoded:null})
+  //     .on('response', function(newresponse){
+  //     console.log('url in get request', newresponse)
+  //     newresponse.on('data', function(newchunk){
+  //       console.log("new chunk:", newchunk);
+  //       console.log(newchunk.toString());
+  //       res.json(newchunk);
+  //       // myResults.push(newchunk)
+  //     })
+  //     // .on('end', function() {
+  //     //   console.log('request is done:', myResults)
+  //     // })
+  //   })
 
-  }
+  // }
 
 
 
