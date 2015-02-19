@@ -261,7 +261,7 @@ module.exports = function () {
     var redirect_uri = "http://localhost:3000/fb_authenticate"
     var url = "https://www.facebook.com/dialog/oauth?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&scope=email";
     // request.get({url:url, json:true})
-   res.redirect(url);
+   res.json({url: url});
   }
 
   functions.facebookAuthenticate = function(req, res) {
@@ -301,21 +301,26 @@ module.exports = function () {
                     console.log(userModel);
 
                     userModel.save(function(err, user) {
-                    res.json({
-                      type: true,
-                      data: user,
-                      token: user.token
-                      });
+
+                    // res.json({
+                    //   type: true,
+                    //   data: user,
+                    //   token: user.token
+                    //   });
                     });
 
                     // res.send(userInfo);
                     // myResults.push(newchunk)
                   } else {
-                    res.json({
-                        type: true,
-                        data: user,
-                        token: user.token
-                        });
+                    // res.json({
+                    //     type: true,
+                    //     data: user,
+                    //     token: user.token
+                    //     });
+                    var params = "?id=" + user.id + "&token=" + user.token
+                    var redirectBackToFrontend = "http://localhost:9000/#/" + params
+                    console.log(redirectBackToFrontend);
+                    res.redirect(redirectBackToFrontend)
                   }
                 })
               // .on('end', function() {
