@@ -318,7 +318,7 @@ module.exports = function () {
                     //     token: user.token
                     //     });
                     var params = "?id=" + user.id + "&token=" + user.token
-                    var redirectBackToFrontend = "http://localhost:9000/#/" + params
+                    var redirectBackToFrontend = "http://localhost:8100/#/" + params
                     console.log(redirectBackToFrontend);
                     res.redirect(redirectBackToFrontend)
                   }
