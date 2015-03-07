@@ -258,7 +258,7 @@ module.exports = function () {
   };
 
   functions.facebookSignup = function(req, res) {
-    var redirect_uri = "http://bite-me.herokuapp.com/fb_authenticate"
+    var redirect_uri = "http://bite-me-server.herokuapp.com/fb_authenticate"
     var url = "https://www.facebook.com/dialog/oauth?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&scope=email";
     // request.get({url:url, json:true})
    res.json({url: url});
@@ -266,7 +266,7 @@ module.exports = function () {
 
   functions.facebookAuthenticate = function(req, res) {
     console.log("called back from fb");
-    var redirect_uri = "http://bite-me.herokuapp.com/fb_authenticate"
+    var redirect_uri = "http://bite-me-server.herokuapp.com/fb_authenticate"
     var code = req.param('code');
     console.log('code', code)
     var url = "https://graph.facebook.com/oauth/access_token?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&client_secret=" + process.env.FACEBOOK_APP_SECRET + "&code=" + code
@@ -318,7 +318,7 @@ module.exports = function () {
                     //     token: user.token
                     //     });
                     var params = "?id=" + user.id + "&token=" + user.token
-                    var redirectBackToFrontend = "http://localhost:8100/#/" + params
+                    var redirectBackToFrontend = "http://bite-me.herokuapp.com/#/" + params
                     console.log(redirectBackToFrontend);
                     res.redirect(redirectBackToFrontend)
                   }
