@@ -258,7 +258,7 @@ module.exports = function () {
   };
 
   functions.facebookSignup = function(req, res) {
-    var redirect_uri = "http://localhost:3000/fb_authenticate"
+    var redirect_uri = "http://bite-me-server.herokuapp.com/fb_authenticate"
     var url = "https://www.facebook.com/dialog/oauth?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&scope=email";
     // request.get({url:url, json:true})
    res.json({url: url});
@@ -266,7 +266,7 @@ module.exports = function () {
 
   functions.facebookAuthenticate = function(req, res) {
     console.log("called back from fb");
-    var redirect_uri = "http://localhost:3000/fb_authenticate"
+    var redirect_uri = "http://bite-me-server.herokuapp.com/fb_authenticate"
     var code = req.param('code');
     console.log('code', code)
     var url = "https://graph.facebook.com/oauth/access_token?client_id=" + process.env.FACEBOOK_APP_ID + "&redirect_uri=" + redirect_uri + "&client_secret=" + process.env.FACEBOOK_APP_SECRET + "&code=" + code
@@ -318,7 +318,7 @@ module.exports = function () {
                     //     token: user.token
                     //     });
                     var params = "?id=" + user.id + "&token=" + user.token
-                    var redirectBackToFrontend = "http://localhost:9000/#/" + params
+                    var redirectBackToFrontend = "http://bite-me.herokuapp.com/#/" + params
                     console.log(redirectBackToFrontend);
                     res.redirect(redirectBackToFrontend)
                   }
@@ -331,25 +331,25 @@ module.exports = function () {
       });
   }
 
-  functions.facebookRequest = function(req, res) {
-    var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
-    var url = "https://graph.facebook.com/me?" + accessToken;
-    console.log('url', url)
-    request.get({url:url, json:true, encoded:null})
-      .on('response', function(newresponse){
-      console.log('url in get request', newresponse)
-      newresponse.on('data', function(newchunk){
-        console.log("new chunk:", newchunk);
-        console.log(newchunk.toString());
-        res.json(newchunk);
-        // myResults.push(newchunk)
-      })
-      // .on('end', function() {
-      //   console.log('request is done:', myResults)
-      // })
-    })
+  // functions.facebookRequest = function(req, res) {
+  //   var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
+  //   var url = "https://graph.facebook.com/me?" + accessToken;
+  //   console.log('url', url)
+  //   request.get({url:url, json:true, encoded:null})
+  //     .on('response', function(newresponse){
+  //     console.log('url in get request', newresponse)
+  //     newresponse.on('data', function(newchunk){
+  //       console.log("new chunk:", newchunk);
+  //       console.log(newchunk.toString());
+  //       res.json(newchunk);
+  //       // myResults.push(newchunk)
+  //     })
+  //     // .on('end', function() {
+  //     //   console.log('request is done:', myResults)
+  //     // })
+  //   })
 
-  }
+  // }
 
 
 
