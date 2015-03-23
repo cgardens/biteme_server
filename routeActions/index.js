@@ -264,6 +264,57 @@ module.exports = function () {
    res.json({url: url});
   }
 
+  var fetchFacebookUser = function(fbGraphUrl, res, redirect) {
+    var success = function(user) {
+      if(redirect) {
+        var params = "?id=" + user.id + "&token=" + user.token
+        var redirectBackToFrontend = "http://bite-me.herokuapp.com/#/" + params
+        console.log(redirectBackToFrontend);
+        res.redirect(redirectBackToFrontend)
+      } else {
+        res.json({
+          id: user.id,
+          token: user.token
+        });
+      }
+    };
+
+    console.log('url', fbGraphUrl);
+    request.get({url:fbGraphUrl, json:true, encoded:null})
+      .on('response', function(newresponse){
+      console.log('url in get request', newresponse)
+      newresponse.on('data', function(newchunk){
+        console.log("new chunk:", newchunk);
+        var userInfo = JSON.parse(newchunk.toString())
+
+        User.findOne({facebookId: userInfo.id}, function(err, user) {
+          if (!user) {
+
+            var userModel = new User();
+            userModel.facebookId = userInfo.id
+            userModel.firstName = userInfo.first_name
+            userModel.email = userInfo.email
+            userModel.customRecipes = []
+            userModel.recipes = []
+            userModel.token = jwt.sign(userModel, 'shhhhh')
+
+            console.log(userModel);
+
+            userModel.save(function(err, user) {
+              console.log("Created new user");
+              success(user);
+            });
+          } else {
+            success(user);
+          }
+        })
+      // .on('end', function() {
+      //   console.log('request is done:', myResults)
+      })
+    })
+
+  };
+
   functions.facebookAuthenticate = function(req, res) {
     console.log("called back from fb");
     var redirect_uri = "http://bite-me-server.herokuapp.com/fb_authenticate"
@@ -276,59 +327,16 @@ module.exports = function () {
         response
           .on('data', function(chunk) {
            console.log('should be a user access token: ' + chunk);
-           // res.send(chunk);
-            // var accessToken = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
+
+            // var chunk = "access_token=CAALoAV6B1s8BAO4k6O3gWnQOst9fWvKR6fiZBZBZAwZCwWUHgBvQm7P77J9itTDuvr1qh0BGAZCLGBZApEJIZCDFvSIaHva9CewRrpztTPvGFpeqvZAWC5FotCxQFFw03ZCq4yZCSdyog3J3sIcyBhqF6hxfi2ZCbkncL3RCA7Rq72OrnmX7LQirUyogTxTjpjZC3pzQgbACbuT9LB8ANuACIUNV&expires=5179731"
             var url = "https://graph.facebook.com/me?" + chunk;
-            console.log('url', url)
-            request.get({url:url, json:true, encoded:null})
-              .on('response', function(newresponse){
-              console.log('url in get request', newresponse)
-              newresponse.on('data', function(newchunk){
-                console.log("new chunk:", newchunk);
-                var userInfo = JSON.parse(newchunk.toString())
-
-                User.findOne({facebookId: userInfo.id}, function(err, user) {
-                  if (!user) {
-
-                    var userModel = new User();
-                    userModel.facebookId = userInfo.id
-                    userModel.firstName = userInfo.first_name
-                    userModel.email = userInfo.email
-                    userModel.customRecipes = []
-                    userModel.recipes = []
-                    userModel.token = jwt.sign(userModel, 'shhhhh')
-
-                    console.log(userModel);
-
-                    userModel.save(function(err, user) {
-
-                    // res.json({
-                    //   type: true,
-                    //   data: user,
-                    //   token: user.token
-                    //   });
-                    });
-
-                    // res.send(userInfo);
-                    // myResults.push(newchunk)
-                  } else {
-                    // res.json({
-                    //     type: true,
-                    //     data: user,
-                    //     token: user.token
-                    //     });
-                    var params = "?id=" + user.id + "&token=" + user.token
-                    var redirectBackToFrontend = "http://bite-me.herokuapp.com/#/" + params
-                    console.log(redirectBackToFrontend);
-                    res.redirect(redirectBackToFrontend)
-                  }
-                })
-              // .on('end', function() {
-              //   console.log('request is done:', myResults)
-              })
-            })
+            fetchFacebookUser(url, res, true);
           })
       });
+  }
+
+  functions.facebookGetToken = function(req, res) {
+    fetchFacebookUser("https://graph.facebook.com/me?access_token=" + req.param('access_token'), res, false);
   }
 
   // functions.facebookRequest = function(req, res) {
