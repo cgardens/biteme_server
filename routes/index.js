@@ -35,6 +35,7 @@ module.exports = function (app) {
 
   app.get('/facebook_signup', routeActions.facebookSignup);
   app.get('/fb_authenticate', routeActions.facebookAuthenticate);
+  app.get('/fb_get_token', routeActions.facebookGetToken);
   // app.get('/fb_request', routeActions.facebookRequest);
 
 
