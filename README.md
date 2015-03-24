@@ -3,7 +3,7 @@
 ##Summary
 A voice-controlled recipe app that makes cooking from a recipe a hands-free experiences.
 
-We developed the project in the MEAN stack on decoupled architecture which allowed us to develop both a web app and a mobile app concurrently.
+We developed the project in the MEAN stack on decoupled architecture which allowed us to develop both a web app and a mobile app concurrently. Checkout the [Bite Me Angular Client](https://github.com/cgardens/biteme_client) and the [Bite Me Ionic Client](https://github.com/cgardens/biteme_ionic_client) to see the accompanying Angular and mobile front ends.
 
 This was a one-week project at DBC.
 
