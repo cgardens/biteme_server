@@ -1,4 +1,13 @@
-# Bit Me Api
+# Bite Me Api
+
+##Summary
+A voice-controlled recipe app that makes cooking from a recipe a hands-free experiences.
+
+We developed the project in the MEAN stack on decoupled architecture which allowed us to develop both a web app and a mobile app concurrently.
+
+This was a one-week project at DBC.
+
+
 
 Dependencies
 
