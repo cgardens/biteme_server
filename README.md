@@ -1,7 +1,7 @@
 # Bite Me Api
 
 ##Try It Out
-Bite Me is live at [bite-me.herokuapp.com](bite-me.herokuapp.com)
+Bite Me is live at [http://bite-me.herokuapp.com](http://bite-me.herokuapp.com)
 
 ##Summary
 A voice-controlled recipe app that makes cooking from a recipe a hands-free experiences.
